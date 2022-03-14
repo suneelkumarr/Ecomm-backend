@@ -13,13 +13,12 @@ const Admin = async (req, res, next) => {
         const decode = await jwt.verify(splitToken, process.env.JWT_SECRET)
 
         //math with roles
-
         const isRole = await Role.findOne({
             $or:[
                 {
                     $and:[
                         {role:decode.role},
-                        {rights:{$in:[pathGroup]}}
+                        {rights:{$in:decode.permissions}}
                     ]
                 },
                 {
